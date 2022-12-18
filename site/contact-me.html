@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style  include-text="style.css"></style>
+  <script src="text-include.js"></script>
+  <title>رزومه</title>
+</head>
+<body>
+
+<div class="topnav">
+  <a href="/">معرفی</a>
+  <a href="/skills">مهارت ها و توانمندی ها</a>
+  <a href="/honors">افتخارات و دستاوردها</a>
+  <a class="active" href="/contact-me">تماس با من</a>
+  <a href="/sources">منابع</a>
+</div>
+
+<div class="contact-me-body">
+  <form id="contact-me-form">
+    <label for="fname">نام:</label>
+    <input type="text" id="fname" name="fname" required>
+    <label for="lname">نام خانوادگی:</label>
+    <input type="text" id="lname" name="lname" required>
+    <label for="email">آدرس ایمیل:</label>
+    <input type="email" id="email" name="email" required>
+    <label for="message">پیام:</label>
+    <textarea name="message" id="message" form="contact-me-form" required></textarea>
+    <input type="submit" value="ارسال">
+  </form>
+  <div id="check">
+    <p>آیا از صحت اطلاعت وارد شده اطمینان دارید؟</p>
+    <button id="yes">آری</button>
+    <button id="no">خیر</button>
+  </div>
+  <div id="success">
+    <p>عملیات موفقیت آمیز بود</p>
+    <button id="ok">متوجه شدم</button>
+  </div>
+</div>
+
+<div class="bottomnav">
+  <a href="tel:+989401234567">شماره تماس: 09401234567</a>
+  <a href="mailto: kimia.alikhani@cvresume.ir">آدرس ایمیل: kimia.alikhani@cvresume.ir</a>
+  <a href="https://github.com/AliJavanJ1">github</a>
+</div>
+
+<script>
+  let form = document.getElementById("contact-me-form");
+  let checkAlert = document.getElementById("check");
+  let successAlert = document.getElementById("success");
+
+  let data = {
+    name: "",
+    familyName: "",
+    email: "",
+    message: "",
+  }
+
+  let onNameChange = (e) => {
+    data.name = e.target.value;
+  }
+  let onFamilyNameChange = (e) => {
+    data.familyName = e.target.value;
+  }
+  let onEmailChange = (e) => {
+    data.email = e.target.value;
+  }
+  let onMessageChange = (e) => {
+    data.message = e.target.value;
+  }
+  let nameInput = document.getElementById("fname");
+  let familyNameInput = document.getElementById("lname");
+  let emailInput = document.getElementById("email");
+  let messageInput = document.getElementById("message");
+  nameInput.addEventListener('input', onNameChange);
+  familyNameInput.addEventListener('input', onFamilyNameChange);
+  emailInput.addEventListener('input', onEmailChange);
+  messageInput.addEventListener('input', onMessageChange);
+
+  let yesButton = document.getElementById('yes');
+  let noButton = document.getElementById("no");
+  let okButton = document.getElementById("ok");
+
+
+  let submitForm = () => {
+    checkAlert.setAttribute("style", "visibility: visible;")
+    return false;
+  }
+  form.onsubmit = submitForm;
+
+  let submitData = () => {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "server.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    console.log(xhr)
+    console.log(JSON.stringify(data))
+    xhr.send(JSON.stringify(data));
+
+    checkAlert.setAttribute("style", "")
+    successAlert.setAttribute("style", "visibility: visible;")
+  }
+  yesButton.onclick = submitData;
+
+  let reset = () => {
+    checkAlert.setAttribute("style", "")
+    successAlert.setAttribute("style", "")
+  }
+  noButton.onclick = reset;
+
+  let pureReset = () => {
+    reset()
+    data = {
+      name: "",
+      familyName: "",
+      email: "",
+      message: "",
+    }
+    nameInput.value = ""
+    familyNameInput.value = ""
+    emailInput.value = ""
+    messageInput.value = ""
+  }
+
+  okButton.onclick = pureReset;
+</script>
+
+</body>
+</html>
